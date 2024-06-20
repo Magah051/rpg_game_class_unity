@@ -101,6 +101,12 @@ public class EnemyController : MonoBehaviour
             }
 
         }
+
+        if (other.CompareTag("AttackZone"))
+        {
+            Debug.Log("Inimigo está sendo atacado...");
+            EnemyTakeDamage(10);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -122,6 +128,16 @@ public class EnemyController : MonoBehaviour
         animator.SetTrigger("Attack");
         Debug.Log("Inimigo atacando...");
         yield return new WaitForSeconds(1);
+    }
+
+    public void EnemyTakeDamage(int damage)
+    {
+        enemyHealth -= damage;
+        Debug.Log("Inimigo tomou " + damage + "de dano Saúde restante: " + enemyHealth);
+        if (enemyHealth <=0)
+        {
+            Destroy(gameObject);
+        }
     }
 
 }
