@@ -103,6 +103,19 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("ZoneAttack"))
+        {
+            Debug.Log("Inimigo saiu da zona de ataque");
+            if(attackCoroutine != null)
+            {
+                StopCoroutine(attackCoroutine);
+                attackCoroutine = null;
+            }
+        }
+    }
+
     private IEnumerator AttackPlayer(PlayerController player)
     {
         player.TakeDamage(10);
