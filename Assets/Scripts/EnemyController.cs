@@ -15,6 +15,7 @@ public class EnemyController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector3 scale;
 
+    private Coroutine attackCoroutine;
     public int enemyHealth = 50;
 
     void Start()
@@ -23,6 +24,7 @@ public class EnemyController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         currentTarget = waypointA;
         scale = transform.localScale;
+        Debug.Log("Life do Enemy: " + enemyHealth);
     }
 
     // Update is called once per frame
@@ -72,4 +74,41 @@ public class EnemyController : MonoBehaviour
         flippedScale.x *= -1;
         transform.localScale = flippedScale;
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("ZoneAttack"))
+        {
+            Debug.Log("Inimigo entrou na zona de ataque");
+
+            PlayerController player = other.GetComponent<PlayerController>();
+
+            if (player == null)
+            {
+                player = other.GetComponentInParent<PlayerController>();
+            }
+
+            if (player != null)
+            {
+                if(attackCoroutine == null)
+                {
+                    attackCoroutine = StartCoroutine(AttackPlayer(player));
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Player não encontrado no objeto com a tag ZoneAttack.");
+            }
+
+        }
+    }
+
+    private IEnumerator AttackPlayer(PlayerController player)
+    {
+        player.TakeDamage(10);
+        animator.SetTrigger("Attack");
+        Debug.Log("Inimigo atacando...");
+        yield return new WaitForSeconds(1);
+    }
+
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -39,4 +40,16 @@ public class PlayerController : MonoBehaviour
         playerAnimator.SetBool("isWalking", isWalking);
         lifeSlider.value = playerHealth * 0.01f;
     }
+
+    public void TakeDamage(int damage)
+    {
+        playerHealth -= damage;
+        Debug.Log("Player tomou " + damage + " de dano. Saúde restante: " + playerHealth);
+        if (playerHealth <= 0)
+        {
+            Debug.Log("Player morreu!");
+            SceneManager.LoadScene(2);
+        }
+    }
+
 }
