@@ -39,6 +39,11 @@ public class PlayerController : MonoBehaviour
 
         playerAnimator.SetBool("isWalking", isWalking);
         lifeSlider.value = playerHealth * 0.01f;
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            playerAnimator.SetTrigger("Attack");
+        }
     }
 
     public void TakeDamage(int damage)
