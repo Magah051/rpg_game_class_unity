@@ -46,6 +46,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("PowerUP"))
+        {
+            Debug.Log("Player apanhou PowerUP");
+            if(playerHealth < 100)
+            {
+                playerHealth += 10;
+            }
+            else
+            {
+                Debug.Log("Você já tem o número máximo de Health");
+            }
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         playerHealth -= damage;
